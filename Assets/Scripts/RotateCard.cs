@@ -9,7 +9,6 @@ public class RotateCard : MonoBehaviour {
 	private bool turnByCPU = false;
 
 	void OnMouseDown () {
-		onCardTurnedHandler (gameObject);
 		turnByUser = true;
 	}
 
@@ -21,13 +20,24 @@ public class RotateCard : MonoBehaviour {
 		if (turnByUser) {
 			if (transform.rotation.eulerAngles.y < 180)
 				transform.Rotate (0, 75 * Time.deltaTime, 0);
-			else
+			else {
 				turnByUser = false;
+				onCardTurnedHandler (gameObject);
+
+				Quaternion temp = transform.rotation;
+				temp.eulerAngles = new Vector3(0, 180, 0);
+				transform.rotation = temp;
+			}
 		} else if (turnByCPU) {
-			if (transform.rotation.eulerAngles.y > 0)
+			if (transform.rotation.eulerAngles.y > 0 && transform.rotation.eulerAngles.y <= 180)
 				transform.Rotate (0, -75 * Time.deltaTime, 0);
-			else
+			else {
 				turnByCPU = false;
+
+				Quaternion temp = transform.rotation;
+				temp.eulerAngles = new Vector3(0, 0, 0);
+				transform.rotation = temp;
+			}
 		}
 	}
 }

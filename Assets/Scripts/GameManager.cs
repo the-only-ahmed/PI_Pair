@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
 			lastObj = obj;
 		} else if (lastTurned == tex) {
 			lastTurned = null;
+			obj.GetComponent<RotateCard> ().enabled = false;
+			lastObj.GetComponent<RotateCard> ().enabled = false;
 			lastObj = null;
 		} else {
 			obj.GetComponent<RotateCard> ().setTurn (true);
