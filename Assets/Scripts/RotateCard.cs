@@ -3,19 +3,31 @@ using System.Collections;
 
 public class RotateCard : MonoBehaviour {
 
-	private bool turn = false;
+	public static event cardTurned onCardTurnedHandler;
+
+	private bool turnByUser = false;
+	private bool turnByCPU = false;
 
 	void OnMouseDown () {
-		print (transform.rotation.eulerAngles.y);
-		turn = true;
+		onCardTurnedHandler (gameObject);
+		turnByUser = true;
+	}
+
+	public void setTurn(bool b) {
+		turnByCPU = b;
 	}
 
 	void Update() {
-		if (turn) {
+		if (turnByUser) {
 			if (transform.rotation.eulerAngles.y < 180)
 				transform.Rotate (0, 75 * Time.deltaTime, 0);
 			else
-				turn = false;
+				turnByUser = false;
+		} else if (turnByCPU) {
+			if (transform.rotation.eulerAngles.y > 0)
+				transform.Rotate (0, -75 * Time.deltaTime, 0);
+			else
+				turnByCPU = false;
 		}
 	}
 }
